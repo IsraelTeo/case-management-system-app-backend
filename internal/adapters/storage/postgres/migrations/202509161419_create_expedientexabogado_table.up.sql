@@ -1,6 +1,6 @@
 CREATE TABLE expedientexabogado (
-    idexpediente UUID NOT NULL,
-    idabogado UUID NOT NULL,
+    idexpediente UUID,
+    idabogado UUID,
     fecha_registro TIMESTAMP NOT NULL,
     usuario_registro UUID NOT NULL,
     CONSTRAINT expediente_fk_idexpediente FOREIGN KEY (idexpediente) REFERENCES expediente(idexpediente) ON DELETE CASCADE,

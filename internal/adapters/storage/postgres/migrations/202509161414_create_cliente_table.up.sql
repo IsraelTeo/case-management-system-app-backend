@@ -1,14 +1,14 @@
 CREATE TABLE cliente (
-    idcliente UUID NOT NULL,
+    idcliente UUID,
     nombre_razon VARCHAR(45) NOT NULL,
     apellido_comercial VARCHAR(45) NOT NULL,
     dni_ruc VARCHAR(45) NOT NULL,
-    telefono_celular VARCHAR(45),
+    telefono_celular VARCHAR(45) NOT NULL,
     direccion_domicilio VARCHAR(150),
     email_personal VARCHAR(45) NOT NULL,
-    actividad VARCHAR(100),
+    actividad VARCHAR(100) NOT NULL,
     tipo BOOLEAN NOT NULL,  
-    fecha_nacimiento DATE,
+    fecha_nacimiento DATE NOT NULL,
     idempresa UUID,                                                                        
     fecha_registro TIMESTAMP NOT NULL,
     fecha_actualizacion TIMESTAMP NOT NULL,
@@ -17,8 +17,6 @@ CREATE TABLE cliente (
     CONSTRAINT cliente_uq_dni_ruc UNIQUE (dni_ruc),
     CONSTRAINT cliente_uq_telefono_celular UNIQUE (telefono_celular),
     CONSTRAINT cliente_uq_email_personal UNIQUE (email_personal),
-    CONSTRAINT usuario_fk_usuario_registro FOREIGN KEY (usuario_registro) REFERENCES usuario(idusuario),
-    CONSTRAINT usuario_fk_usuario_actualizacion FOREIGN KEY (usuario_actualizacion) REFERENCES usuario(idusuario),
     CONSTRAINT empresa_fk_idempresa FOREIGN KEY (idempresa) REFERENCES empresa(idempresa) ON DELETE SET NULL,
     CONSTRAINT cliente_pk_idcliente PRIMARY KEY (idcliente)
 );

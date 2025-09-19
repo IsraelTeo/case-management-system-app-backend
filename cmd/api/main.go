@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	// Cargar configuración
+	// Cargar Variables de Entorno
 	cfg, err := config.New()
 	if err != nil {
 		slog.Error("Error loading configuration", "error", err)

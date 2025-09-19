@@ -6,6 +6,7 @@ require (
 	github.com/Masterminds/squirrel v1.5.4 // indirect
 	github.com/caarlos0/env/v9 v9.0.0 // indirect
 	github.com/golang-migrate/migrate/v4 v4.19.0 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect

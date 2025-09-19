@@ -26,7 +26,6 @@ func (db *DB) Migrate(cfg *config.DB) error {
 		return err
 	}
 
-	// construye la url directamente desde cfg
 	url := buildMigrateURL(cfg)
 
 	migrations, err := migrate.NewWithSourceInstance("iofs", driver, url)
@@ -41,6 +40,7 @@ func (db *DB) Migrate(cfg *config.DB) error {
 	return nil
 }
 
+// buildMigrateURL construye la URL de conexión PostgreSQL para migraciones
 func buildMigrateURL(cfg *config.DB) string {
 	return fmt.Sprintf(
 		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
