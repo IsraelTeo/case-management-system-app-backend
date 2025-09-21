@@ -6,6 +6,8 @@ import (
 	"github.com/google/uuid"
 )
 
+// Hacer enum de estados de un expediente judicial
+
 // CaseFile representa a una entidad de expediente judicial en el sistema.
 type CaseFile struct {
 	CaseFileID uuid.UUID

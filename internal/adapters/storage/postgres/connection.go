@@ -7,6 +7,7 @@ import (
 
 	"github.com/IsraelTeo/case-management-system-app-backend/internal/app/config"
 	"github.com/Masterminds/squirrel"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -18,7 +19,7 @@ import (
 * PostgreSQL.
  */
 type DB struct {
-	pool         *pgxpool.Pool
+	Pool         *pgxpool.Pool
 	QueryBuilder *squirrel.StatementBuilderType
 	url          string
 }
@@ -34,10 +35,12 @@ func New(ctx context.Context, cfg *config.DB) (*DB, error) {
 		return nil, err
 	}
 
+	// Verifica la conexión a la base de datos
 	if err = db.Ping(ctx); err != nil {
 		return nil, err
 	}
 
+	// Configura el generador de consultas SQL con el formato de marcador de posición adecuado para PostgreSQL
 	psql := squirrel.StatementBuilder.PlaceholderFormat(squirrel.Dollar)
 
 	return &DB{
@@ -60,4 +63,16 @@ func buildURL(cfg *config.DB) string {
 		cfg.MinConn,
 		cfg.MaxConn,
 	)
+}
+
+// ErrorCode devuelve el código de error específico de PostgreSQL
+func (db *DB) ErrorCode(err error) string {
+	// Valida de que el error sea del tipo *pgconn.PgError
+	pgErr := err.(*pgconn.PgError)
+	return pgErr.Code
+}
+
+// Close cierra la conexión a la base de datosn
+func (db *DB) Close() {
+	db.Pool.Close()
 }

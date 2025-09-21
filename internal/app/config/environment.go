@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"strconv"
 
@@ -14,6 +15,7 @@ type Container struct {
 	App  *App
 	DB   *DB
 	HTTP *HTTP
+	JWT  *JWT
 }
 
 // App contiene todas las variables de entorno para la aplicación
@@ -42,6 +44,12 @@ type HTTP struct {
 	AllowedOrigins string
 }
 
+// JWT contiene todas las variables de entorno para json web tokens
+type JWT struct {
+	ExpirationTime int64
+	SecretKey      string
+}
+
 // New crea una nueva instancia de contenedor
 func New() (*Container, error) {
 	err := godotenv.Load(".env")
@@ -68,14 +76,20 @@ func New() (*Container, error) {
 	http := &HTTP{
 		Env:            os.Getenv("APP_ENV"),
 		URL:            os.Getenv("HTTP_URL"),
-		Port:           os.Getenv("HTTP_PORT"),
+		Port:           os.Getenv("SERVER_PORT"),
 		AllowedOrigins: os.Getenv("HTTP_ALLOWED_ORIGINS"),
+	}
+
+	jwt := &JWT{
+		ExpirationTime: getEnvExpTimeJWTAsInt("EXP_JWT", 10, 64),
+		SecretKey:      os.Getenv("API_SECRET"),
 	}
 
 	return &Container{
 		App:  app,
 		DB:   db,
 		HTTP: http,
+		JWT:  jwt,
 	}, nil
 }
 
@@ -94,4 +108,27 @@ func getEnvAsInt(env string, defaultVal int) int {
 	}
 
 	return val
+}
+
+// getEnvExpTimeJwtAsInt obteiene el string desde la variable de entorno "JWT_EXP"
+// y lo retorna como int64
+func getEnvExpTimeJWTAsInt(env string, base, bitSize int) int64 {
+	var defaultVal int64 = 86400
+
+	valStr := os.Getenv(env)
+	if valStr == "" {
+		return defaultVal
+	}
+
+	exp, err := strconv.ParseInt(valStr, base, bitSize)
+	if err != nil {
+		slog.Error("Error converting JWT_EXP, using default value",
+			slog.String("error", err.Error()),
+			slog.Int64("default", defaultVal),
+		)
+
+		return defaultVal
+	}
+
+	return exp
 }

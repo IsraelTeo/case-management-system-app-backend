@@ -28,11 +28,13 @@ func (db *DB) Migrate(cfg *config.DB) error {
 
 	url := buildMigrateURL(cfg)
 
+	// Crea una nueva instancia de migrate con el driver y la URL de la base de datos
 	migrations, err := migrate.NewWithSourceInstance("iofs", driver, url)
 	if err != nil {
 		return err
 	}
 
+	// Aplica las migraciones pendientes
 	if err := migrations.Up(); err != nil && err != migrate.ErrNoChange {
 		return err
 	}

@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Institution representa a una entidad de institución en el sistema.
 type Institution struct {
 	InstitutionID uuid.UUID
 	Name          string

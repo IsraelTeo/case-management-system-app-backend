@@ -6,11 +6,11 @@ import (
 	"github.com/google/uuid"
 )
 
-// Role represents the "rol" table in the database.
+// Role representa una entidad de rol en el sistema.
 type Role struct {
 	ID              uuid.UUID
 	Role            string
-	Description     *string // TEXT, puede ser NULL → usamos puntero
+	Description     string
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	CreatedByUserID uuid.UUID

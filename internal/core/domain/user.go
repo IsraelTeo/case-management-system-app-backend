@@ -12,11 +12,11 @@ type User struct {
 	Username        string
 	Password        string
 	Email           string
-	Phone           string
-	RoleID          uuid.UUID
-	CompanyID       uuid.UUID
+	PhoneNumber     string
+	RoleID          *uuid.UUID
+	CompanyID       *uuid.UUID
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
-	CreatedByUserID uuid.UUID
-	UpdatedByUserID uuid.UUID
+	CreatedByUserID *uuid.UUID
+	UpdatedByUserID *uuid.UUID
 }

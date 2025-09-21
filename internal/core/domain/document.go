@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 )
 
-// Document representa
+// Document representa a una entidad documento en el sistema.
 type Document struct {
 	ID                   uuid.UUID `json:"id"`
 	DocumentNumber       string    `json:"document_number"`
