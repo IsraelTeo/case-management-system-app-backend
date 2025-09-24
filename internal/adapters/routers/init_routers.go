@@ -17,6 +17,6 @@ const (
 // InitEnpoints inicializa las rutas del API.
 func InitEnpoints(e *echo.Echo, db *postgres.DB, cfg *config.JWT) {
 	api := e.Group("/api/v1")
-	setUpCustomer(api, db, cfg)
 	setUpAuth(api, db, cfg)
+	setUpCustomer(api, db, cfg)
 }

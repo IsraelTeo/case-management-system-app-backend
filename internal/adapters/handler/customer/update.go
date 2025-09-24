@@ -5,11 +5,24 @@ import (
 
 	"github.com/IsraelTeo/case-management-system-app-backend/internal/adapters/jwt"
 	"github.com/IsraelTeo/case-management-system-app-backend/internal/adapters/payload"
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
 
-// Create maneja la creación de un nuevo cliente.
-func (h *Handler) Create(c echo.Context) error {
+// Update maneja la solicitud para actualizar un cliente existente.
+func (h *Handler) Update(c echo.Context) error {
+	IDStr := c.Param("id")
+
+	ID, err := uuid.Parse(IDStr)
+	if err != nil {
+		return c.JSON(
+			http.StatusBadRequest,
+			map[string]string{
+				"error": "Invalid ID",
+			},
+		)
+	}
+
 	userID, err := jwt.ExtractUserID(c, h.cfg)
 	if err != nil {
 		return c.JSON(
@@ -20,7 +33,7 @@ func (h *Handler) Create(c echo.Context) error {
 		)
 	}
 
-	customerReq := payload.CreateCustomerRequest{}
+	customerReq := payload.UpdateCustomerRequest{}
 	if err := c.Bind(&customerReq); err != nil {
 		return c.JSON(
 			http.StatusBadRequest,
@@ -30,7 +43,7 @@ func (h *Handler) Create(c echo.Context) error {
 		)
 	}
 
-	createdCustomer, err := h.service.Create(c.Request().Context(), &customerReq, userID)
+	customerUpdated, err := h.service.Update(c.Request().Context(), &customerReq, ID, userID)
 	if err != nil {
 		return c.JSON(
 			http.StatusInternalServerError,
@@ -40,5 +53,5 @@ func (h *Handler) Create(c echo.Context) error {
 		)
 	}
 
-	return c.JSON(http.StatusCreated, createdCustomer)
+	return c.JSON(http.StatusOK, customerUpdated)
 }

@@ -19,4 +19,8 @@ func setUpCustomer(api *echo.Group, db *postgres.DB, cfg *config.JWT) {
 	customer := api.Group("/customers")
 
 	customer.POST(voidPath, middleware.ValidateJWT(customerHandler.Create, cfg))
+	customer.GET(idPath, middleware.ValidateJWT(customerHandler.GetByID, cfg))
+	customer.PUT(idPath, middleware.ValidateJWT(customerHandler.Update, cfg))
+	customer.DELETE(idPath, middleware.ValidateJWT(customerHandler.Delete, cfg))
+	customer.GET(voidPath, middleware.ValidateJWT(customerHandler.GetCustomers, cfg))
 }

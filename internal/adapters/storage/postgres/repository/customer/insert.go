@@ -11,6 +11,7 @@ func (r *Repository) Insert(ctx context.Context, c *domain.Customer) (*domain.Cu
 	// Insert(): Construye la consulta insert con los campos del cliente
 	query := r.db.QueryBuilder.Insert("cliente").
 		Columns(
+			"idcliente",
 			"nombre_razon",
 			"apellido_comercial",
 			"dni_ruc",
@@ -27,6 +28,7 @@ func (r *Repository) Insert(ctx context.Context, c *domain.Customer) (*domain.Cu
 			"usuario_actualizacion",
 		).
 		Values(
+			c.ID,
 			c.BusinessOrName,
 			c.TradeName,
 			c.DNIOrRUC,

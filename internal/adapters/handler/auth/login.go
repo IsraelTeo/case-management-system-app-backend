@@ -14,7 +14,7 @@ func (h *Handler) Login(c echo.Context) error {
 		return c.JSON(
 			http.StatusBadRequest,
 			map[string]string{
-				"error": "Invalid request payload",
+				"error": "Invalid request",
 			},
 		)
 	}
@@ -24,7 +24,7 @@ func (h *Handler) Login(c echo.Context) error {
 		return c.JSON(
 			http.StatusUnauthorized,
 			map[string]string{
-				"error": "username or password incorrect",
+				"error": err.Error(),
 			},
 		)
 	}
